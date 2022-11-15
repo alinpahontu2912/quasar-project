@@ -27,7 +27,7 @@ const props = defineProps({
 </script>
 
 <template>
-
+    <!-- TODO template always first, before script -->
     <!-- no quasar here
      <div>
         <table class="table gridView">
