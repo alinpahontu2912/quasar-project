@@ -37,22 +37,30 @@ const birthDate = ref(new Date().toISOString().split('T')[0])
 const emit = defineEmits(['newPerson'])
 
 function capitalize(str) {
+  /**
+   * TODO str may not always be a string here, can come as null
+   * Test case: Write something in first name; Clear using x button; Click submit -> error in console
+   * You need to add checks to str variable
+   * OR
+   * Add validation in your form (see q-input rules)
+  */
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 }
 
 function addPerson() {
+  /**
+   * TODO same as above; check !== '' is not enough (can be undefined / null)
+   */
   if (firstName.value !== '' && lastName.value !== '' && birthDate.value !== '') {
     emit('newPerson', capitalize(firstName.value), capitalize(lastName.value), birthDate.value)
     firstName.value = ''
     lastName.value = ''
     birthDate.value = ''
-  }
-  else {
+  } else {
     alert('Introdu toate datele!')
   }
 }
 </script>
-
 
 <style>
 #data .dataForm {
