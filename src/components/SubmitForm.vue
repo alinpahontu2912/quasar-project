@@ -50,7 +50,7 @@ function addPerson() {
     surname.value = ''
     birthDate.value = ''
   } else {
-    alert("Date incorecte")
+    alert('Date incorecte')
   }
 }
 </script>
