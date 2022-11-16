@@ -4,9 +4,10 @@
       :offset="[10, 10]">
       Poza de profil
     </q-tooltip>
-    <q-avatar size="60px">
-      <q-file filled outlined v-model="model" spinner-color="white" />
-      <img src="photo">
+
+    <q-avatar size="60px" @click="onAvatarClick">
+      <q-file v-show="false" ref="filePicker" filled outlined v-model="model" spinner-color="white" />
+      <img :src="photo">
     </q-avatar>
   </q-btn>
 </template>
@@ -15,15 +16,24 @@
 
 import { ref, watch } from 'vue'
 
+const filePicker = ref()
+
 const model = ref(null)
 const photo = ref(null)
+
+function onAvatarClick() {
+  filePicker.value.pickFiles()
+}
 
 watch(model, (photo) => {
   const reader = new FileReader()
   reader.readAsDataURL(model.value)
   reader.onload = (e) => {
+    console.log(filePicker)
+    debugger
     photo.value = e.target.result
   }
+  debugger
   console.log('Change')
 })
 
