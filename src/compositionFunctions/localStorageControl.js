@@ -1,5 +1,10 @@
 import { LocalStorage } from 'quasar'
 
+const LOCAL_STORAGE_KEY = {
+  GRID_ITEMS: 'GridItems',
+  PHOTO: 'photo'
+}
+
 export function addToLocalStorage (key, value) {
   try {
     LocalStorage.set(key, value)
@@ -9,16 +14,11 @@ export function addToLocalStorage (key, value) {
 }
 
 export function retrieveGridData () {
-  const tableKeys = LocalStorage.getAllKeys().filter(key => key !== 'photo')
-  const tableData = []
-  if (tableKeys.length > 0) {
-    tableKeys.forEach(key => tableData.push(LocalStorage.getItem(key)))
-  }
-  return tableData
+  return LocalStorage.getItem(LOCAL_STORAGE_KEY.GRID_ITEMS) || []
 }
 
 export function retrieveProfilePicture () {
-  return LocalStorage.getItem('photo')
+  return LocalStorage.getItem(LOCAL_STORAGE_KEY.PHOTO)
 }
 
 export function getLastIndex () {

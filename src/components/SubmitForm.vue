@@ -30,8 +30,11 @@
 </template>
 
 <script setup>
-import { dateRules, textRules } from 'src/compositionFunctions/userInputRules'
 import { ref } from 'vue'
+import useInputRules from '../compositionFunctions/useInputRules'
+
+const { textRules, dateRules } = useInputRules()
+
 const surname = ref('')
 const name = ref('')
 const birthDate = ref(new Date().toISOString().split('T')[0])

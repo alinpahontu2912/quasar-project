@@ -1,7 +1,7 @@
 
 <template>
-  <SubmitForm @newPerson="insertPerson" />
-  <DemoGrid :rows="gridData" :columns="gridColumns" />
+  <SubmitForm @newPerson="insertPerso  n" />
+  <DemoGrid :rows="gridData  " :columns="grid  Columns" />
 </template>
 
 <script setup>

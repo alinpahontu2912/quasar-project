@@ -6,7 +6,6 @@
   "author": "alinpahont2912 <alin_pahontu@yahoo.com>",
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
-    "i18n:report": "vue-cli-service i18n:report --src \"./src/**/*.?(js|vue)\" --locales \"./src/locales/**/*.json\"",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
@@ -14,12 +13,11 @@
     "core-js": "^3.6.5",
     "quasar": "^2.6.0",
     "vue": "^3.0.0",
-    "vue-i18n": "^9.1.0",
+    "vue-i18n": "^9.1.10",
     "vue-router": "^4.0.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.13.14",
-    "@intlify/vue-i18n-loader": "^3.0.0",
     "@quasar/app-webpack": "^3.0.0",
     "eslint": "^8.10.0",
     "eslint-config-standard": "^17.0.0",
@@ -27,8 +25,7 @@
     "eslint-plugin-n": "^15.0.0",
     "eslint-plugin-promise": "^6.0.0",
     "eslint-plugin-vue": "^9.0.0",
-    "eslint-webpack-plugin": "^3.1.1",
-    "vue-cli-plugin-i18n": "~2.3.1"
+    "eslint-webpack-plugin": "^3.1.1"
   },
   "browserslist": [
     "last 10 Chrome versions",

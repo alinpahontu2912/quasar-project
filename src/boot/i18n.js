@@ -5,7 +5,9 @@ export default ({ app }) => {
   // Create I18n instance
   const i18n = createI18n({
     locale: 'en-US',
+    legacy: false,
     globalInjection: true,
+    allowComposition: true, // you need to specify that!
     messages
   })
 
