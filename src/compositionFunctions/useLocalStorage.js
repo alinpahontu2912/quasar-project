@@ -1,14 +1,22 @@
 import { LocalStorage } from 'quasar'
 
+const LOCAL_STORAGE_KEY = {
+  GRID_ITEMS: 'GridItems',
+  PROFILE_PICTURE: 'ProfilePicture'
+}
+
 export default function () {
-  const LOCAL_STORAGE_KEY = {
-    GRID_ITEMS: 'GridItems',
-    PROFILE_PICTURE: 'ProfilePicture'
+  function updateGrid (value) {
+    try {
+      LocalStorage.set(LOCAL_STORAGE_KEY.GRID_ITEMS, value)
+    } catch (e) {
+      console.log('Could not save data on local storage')
+    }
   }
 
-  function addToLocalStorage (key, value) {
+  function updateProfilePicture (value) {
     try {
-      LocalStorage.set(key, value)
+      LocalStorage.set(LOCAL_STORAGE_KEY.GRID_ITEMS, value)
     } catch (e) {
       console.log('Could not save data on local storage')
     }
@@ -27,8 +35,8 @@ export default function () {
   }
 
   return {
-    LOCAL_STORAGE_KEY,
-    addToLocalStorage,
+    updateGrid,
+    updateProfilePicture,
     retrieveGridData,
     retrieveProfilePicture,
     clearLocalStorage

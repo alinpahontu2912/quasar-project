@@ -6,12 +6,12 @@
 
 <script setup>
 
-import localStorageControl from '../compositionFunctions/useLocalStorage'
+import useLocalStorage from '../compositionFunctions/useLocalStorage'
 import SubmitForm from './SubmitForm.vue'
 import DemoGrid from './GridView.vue'
 import { ref } from 'vue'
 
-const { LOCAL_STORAGE_KEY, addToLocalStorage, retrieveGridData } = localStorageControl()
+const { updateGrid, retrieveGridData } = useLocalStorage()
 
 const gridColumns = [{
   name: 'surname',
@@ -44,7 +44,7 @@ const gridData = ref(
 
 function insertPerson(name, surname, birthDate) {
   gridData.value.push({ surname, name, birthDate })
-  addToLocalStorage(LOCAL_STORAGE_KEY.GRID_ITEMS, gridData.value)
+  updateGrid(gridData.value)
 }
 
 </script>

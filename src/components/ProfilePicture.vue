@@ -12,10 +12,10 @@
 </template>
 
 <script setup>
-import localStorageControl from '../compositionFunctions/useLocalStorage'
 import { ref, watch } from 'vue'
+import useLocalStorage from '../compositionFunctions/useLocalStorage'
 
-const { LOCAL_STORAGE_KEY, addToLocalStorage, retrieveProfilePicture } = localStorageControl()
+const { updateProfilePicture, retrieveProfilePicture } = useLocalStorage()
 const filePicker = ref()
 const model = ref('')
 const photo = ref(retrieveProfilePicture())
@@ -25,7 +25,7 @@ watch(model, (newModel) => {
   reader.readAsDataURL(model.value)
   reader.onload = (e) => {
     photo.value = e.target.result
-    addToLocalStorage(LOCAL_STORAGE_KEY.PROFILE_PICTURE, photo.value)
+    updateProfilePicture(photo.value)
   }
 })
 
