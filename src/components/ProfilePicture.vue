@@ -12,7 +12,7 @@
 </template>
 
 <script setup>
-import localStorageControl from '../compositionFunctions/localStorageControl'
+import localStorageControl from '../compositionFunctions/useLocalStorage'
 import { ref, watch } from 'vue'
 
 const { LOCAL_STORAGE_KEY, addToLocalStorage, retrieveProfilePicture } = localStorageControl()
