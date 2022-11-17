@@ -1,15 +1,17 @@
 
 <template>
-  <SubmitForm @newPerson="insertPerso  n" />
-  <DemoGrid :rows="gridData  " :columns="grid  Columns" />
+  <SubmitForm @newPerson="insertPerson" />
+  <DemoGrid :rows="gridData" :columns="gridColumns" />
 </template>
 
 <script setup>
 
+import localStorageControl from '../compositionFunctions/localStorageControl'
 import SubmitForm from './SubmitForm.vue'
 import DemoGrid from './GridView.vue'
 import { ref } from 'vue'
-import { addToLocalStorage, retrieveGridData, getLastIndex } from '../compositionFunctions/localStorageControl'
+
+const { LOCAL_STORAGE_KEY, addToLocalStorage, retrieveGridData } = localStorageControl()
 
 const gridColumns = [{
   name: 'surname',
@@ -42,7 +44,8 @@ const gridData = ref(
 
 function insertPerson(name, surname, birthDate) {
   gridData.value.push({ surname, name, birthDate })
-  addToLocalStorage(getLastIndex() + 1, { surname, name, birthDate })
+  console.log(LOCAL_STORAGE_KEY.GRID_ITEMS)
+  addToLocalStorage(LOCAL_STORAGE_KEY.GRID_ITEMS, gridData.value)
 }
 
 </script>

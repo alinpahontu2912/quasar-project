@@ -1,5 +1,6 @@
 export default {
   name: 'Prenume',
   surname: 'Nume de familie',
-  error_text: '* Camp obligatoriu'
+  mandatory_field: '* Camp obligatoriu',
+  short_input: 'Nume prea scurt'
 }
