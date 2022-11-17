@@ -9,6 +9,7 @@
 import SubmitForm from './SubmitForm.vue'
 import DemoGrid from './GridView.vue'
 import { ref } from 'vue'
+import { addToLocalStorage, retrieveGridData, getLastIndex } from '../compositionFunctions/localStorageControl'
 
 const gridColumns = [{
   name: 'surname',
@@ -35,10 +36,13 @@ const gridColumns = [{
   format: val => `${val}`,
   sortable: true
 }]
-const gridData = ref([])
+const gridData = ref(
+  retrieveGridData()
+)
 
 function insertPerson(name, surname, birthDate) {
   gridData.value.push({ surname, name, birthDate })
+  addToLocalStorage(getLastIndex() + 1, { surname, name, birthDate })
 }
 
 </script>

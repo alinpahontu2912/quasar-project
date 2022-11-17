@@ -4,7 +4,7 @@
       <q-layout view="hHh Lpr lff" style="height: 100vh" class="shadow-2 rounded-borders">
         <q-header elevated class="bg-black">
           <div class="row no-wrap items-center q-mt-md q-pa-sm">
-            <q-btn flat @click="drawer = !drawer" round dense icon="menu"></q-btn>
+            <q-btn flat @click="toggleDrawer" round dense icon="menu"></q-btn>
             <q-space />
             <ProfilePicture />
           </div>
@@ -40,7 +40,10 @@
 import { ref } from 'vue'
 import HomePage from './HomePage.vue'
 import ProfilePicture from './ProfilePicture.vue'
-
 const drawer = ref(true)
+
+function toggleDrawer() {
+  drawer.value = !drawer.value
+}
 
 </script>

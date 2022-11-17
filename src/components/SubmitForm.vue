@@ -2,16 +2,13 @@
   <div d="data" iclass="center">
     <form class="dataForm" @submit.prevent="addPerson">
       <div class="q-pa-sm">
-        <q-input name="name" :rules="[val => !!val || '* Camp obligatoriu', val => val.length > 2 || 'Nume prea scurt']"
-          v-model="name" color="primary" label="Introdu prenume" filled clearable />
+        <q-input name="name" :rules="textRules" v-model="name" color="primary" :label="$t('name')" filled clearable />
       </div>
       <div class="q-pa-sm">
-        <q-input name="surname"
-          :rules="[val => !!val || '* Camp obligatoriu', val => val.length > 2 || 'Nume prea scurt']" v-model="surname"
-          color="primary" label="Introdu nume" filled clearable />
+        <q-input :label="$t('surname')" :rules="textRules" v-model="surname" color="primary" filled clearable />
       </div>
       <div class="q-pa-sm">
-        <q-input filled v-model="birthDate" :rules="[val => !!val || '* Camp obligatoriu']">
+        <q-input filled v-model="birthDate" :rules="dateRules">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -33,6 +30,7 @@
 </template>
 
 <script setup>
+import { dateRules, textRules } from 'src/compositionFunctions/userInputRules'
 import { ref } from 'vue'
 const surname = ref('')
 const name = ref('')

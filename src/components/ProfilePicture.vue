@@ -13,16 +13,17 @@
 
 <script setup>
 import { ref, watch } from 'vue'
-
+import { retrieveProfilePicture, addToLocalStorage } from 'src/compositionFunctions/localStorageControl'
 const filePicker = ref()
 const model = ref('')
-const photo = ref('')
+const photo = ref(retrieveProfilePicture())
 
 watch(model, (newModel) => {
   const reader = new FileReader()
   reader.readAsDataURL(model.value)
   reader.onload = (e) => {
     photo.value = e.target.result
+    addToLocalStorage('photo', photo.value)
   }
 })
 
