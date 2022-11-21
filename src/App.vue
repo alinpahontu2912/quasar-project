@@ -1,8 +1,8 @@
 
 <template>
-  <SideMenu />
+  <Layout />
 </template>
 
 <script setup>
-import SideMenu from './components/SideMenu.vue'
+import Layout from './components/Layout.vue'
 </script>
