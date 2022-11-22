@@ -1,5 +1,5 @@
 <template>
-  <q-drawer bordered :width="300" :breakpoint="600" show-if-above v-model="model">
+  <q-drawer bordered :width="300" :breakpoint="300" show-if-above v-model="toggled">
     <q-scroll-area class="fit">
       <q-list padding class="menu-list">
         <q-item>
@@ -20,18 +20,20 @@
 </template>
 
 <script setup>
-import { ref, inject } from 'vue'
 import ExpansionItem from './ExpansionItem.vue'
-const model = ref(true)
+import { ref, inject } from 'vue'
+
+const toggled = ref(true)
 const bus = inject('bus')
 
-bus.on('toggleDrawer', () => {
-  model.value = !model.value
-})
 let id = 0
 const items = ref([
-  { id: id++, content: 'Test', labelName: 'Test1' },
-  { id: id++, content: 'Test', labelName: 'Test2' }
+  { id: id++, pageRoute: '/', pageName: 'Home' },
+  { id: id++, pageRoute: '/hello', pageName: 'Hello' }
 ])
+
+bus.on('toggleDrawer', () => {
+  toggled.value = !toggled.value
+})
 
 </script>
