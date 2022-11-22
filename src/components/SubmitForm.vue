@@ -23,7 +23,7 @@
         </q-input>
       </div>
       <div class="q-pa-md row justify-center">
-        <q-btn type="submit" color="primary" :label="$t('submit')" />
+        <q-btn type="submit" color="primary" label="Submit" />
       </div>
     </form>
   </div>
@@ -32,7 +32,9 @@
 <script setup>
 import { ref } from 'vue'
 import useInputRules from '../compositionFunctions/useInputRules'
+
 const { textRules, dateRules } = useInputRules()
+
 const surname = ref('')
 const name = ref('')
 const birthDate = ref(new Date().toISOString().split('T')[0])

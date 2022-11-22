@@ -6,6 +6,7 @@
 </template>
 
 <script setup>
+
 const props = defineProps({
   rows: Array,
   columns: Array

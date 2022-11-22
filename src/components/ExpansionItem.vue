@@ -1,10 +1,11 @@
 <template>
-  <q-expansion-item :header-inset-level="1" expand-separator icon="receipt" :label="$t('pages')" default-closed>
-    <PageRoute v-for="item in items" :key="item.id" :pageName="item.pageName" :pageRoute="item.pageRoute" />
+  <q-expansion-item :header-inset-level="1" expand-separator icon="receipt" label="Pages" default-closed>
+    <InsideExpansionItem v-for="item in items" :key="item.id" :content="item.content" :label="item.labelName" />
   </q-expansion-item>
 </template>
 <script setup>
-import PageRoute from './PageRoute.vue'
+import InsideExpansionItem from './InsideExpansionItem.vue'
+import { ref } from 'vue'
 
 const props = defineProps({
   items: Array
