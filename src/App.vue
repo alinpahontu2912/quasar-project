@@ -1,8 +1,4 @@
 
 <template>
-  <SideMenu />
+  <RouterView />
 </template>
-
-<script setup>
-import SideMenu from './components/SideMenu.vue'
-</script>
