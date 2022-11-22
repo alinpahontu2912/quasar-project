@@ -1,14 +1,14 @@
 <template>
-  <div id="data" class="center">
+  <div d="data" iclass="center">
     <form class="dataForm" @submit.prevent="addPerson">
-      <div class="q-pa-md">
-        <q-input name="firstName" v-model="firstName" color="primary" label="Introdu prenume" filled clearable />
+      <div class="q-pa-sm">
+        <q-input name="name" :rules="textRules" v-model="name" color="primary" :label="$t('name')" filled clearable />
       </div>
-      <div class="q-pa-md">
-        <q-input name="lastName" v-model="lastName" color="primary" label="Introdu nume" filled clearable />
+      <div class="q-pa-sm">
+        <q-input :label="$t('surname')" :rules="textRules" v-model="surname" color="primary" filled clearable />
       </div>
-      <div class="q-pa-md">
-        <q-input filled v-model="birthDate">
+      <div class="q-pa-sm">
+        <q-input filled v-model="birthDate" :rules="dateRules">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -31,33 +31,27 @@
 
 <script setup>
 import { ref } from 'vue'
-const lastName = ref('')
-const firstName = ref('')
+import useInputRules from '../compositionFunctions/useInputRules'
+
+const { textRules, dateRules } = useInputRules()
+
+const surname = ref('')
+const name = ref('')
 const birthDate = ref(new Date().toISOString().split('T')[0])
 const emit = defineEmits(['newPerson'])
 
 function capitalize(str) {
-  /**
-   * TODO str may not always be a string here, can come as null
-   * Test case: Write something in first name; Clear using x button; Click submit -> error in console
-   * You need to add checks to str variable
-   * OR
-   * Add validation in your form (see q-input rules)
-  */
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 }
 
 function addPerson() {
-  /**
-   * TODO same as above; check !== '' is not enough (can be undefined / null)
-   */
-  if (firstName.value !== '' && lastName.value !== '' && birthDate.value !== '') {
-    emit('newPerson', capitalize(firstName.value), capitalize(lastName.value), birthDate.value)
-    firstName.value = ''
-    lastName.value = ''
+  if (name.value.length > 0 && surname.value.length > 0 && !!Date.parse(birthDate.value)) {
+    emit('newPerson', capitalize(name.value), capitalize(surname.value), birthDate.value)
+    name.value = ''
+    surname.value = ''
     birthDate.value = ''
   } else {
-    alert('Introdu toate datele!')
+    alert('Date incorecte')
   }
 }
 </script>
@@ -65,7 +59,7 @@ function addPerson() {
 <style>
 #data .dataForm {
 
-  width: "85vw";
+  width: "80vw";
   padding: 3em;
 
 }
