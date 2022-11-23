@@ -29,7 +29,6 @@
             <HomePage />
           </q-page>
         </q-page-container>
-
       </q-layout>
     </div>
   </div>
@@ -38,7 +37,7 @@
 <script setup>
 
 import { ref } from 'vue'
-import HomePage from './HomePage.vue'
+import HomePage from './HomeView.vue'
 import ProfilePicture from './ProfilePicture.vue'
 const drawer = ref(true)
 

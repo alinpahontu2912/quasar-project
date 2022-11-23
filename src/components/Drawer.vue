@@ -22,7 +22,7 @@
 <script setup>
 import ExpansionItem from './ExpansionItem.vue'
 import { ref, inject } from 'vue'
-
+import { EVENT_KEYS } from '../utils/eventKeys.js'
 const toggled = ref(true)
 const bus = inject('bus')
 
@@ -32,7 +32,7 @@ const items = ref([
   { id: id++, pageRoute: '/hello', pageName: 'Hello' }
 ])
 
-bus.on('toggleDrawer', () => {
+bus.on(EVENT_KEYS.TOGGLE_DRAWER, () => {
   toggled.value = !toggled.value
 })
 

@@ -1,6 +1,6 @@
 <template>
-  <Layout />
+  <GridView />
 </template>
 <script setup>
-import Layout from '../components/Layout.vue'
+import GridView from 'src/components/GridView.vue'
 </script>

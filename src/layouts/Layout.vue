@@ -6,7 +6,7 @@
         <Drawer />
         <q-page-container>
           <q-page padding>
-            <HomePage />
+            <router-view />
           </q-page>
         </q-page-container>
       </q-layout>
@@ -16,7 +16,6 @@
 
 <script setup>
 
-import Drawer from './Drawer.vue'
-import Header from './Header.vue'
-import HomePage from './HomePage.vue'
+import Drawer from '../components/Drawer.vue'
+import Header from '../components/Header.vue'
 </script>

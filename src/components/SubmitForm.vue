@@ -37,14 +37,13 @@ const surname = ref('')
 const name = ref('')
 const birthDate = ref(new Date().toISOString().split('T')[0])
 const emit = defineEmits(['newPerson'])
-
 function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
 }
 
 function addPerson() {
   if (name.value.length > 0 && surname.value.length > 0 && !!Date.parse(birthDate.value)) {
-    emit('newPerson', capitalize(name.value), capitalize(surname.value), birthDate.value)
+    emit('newPerson', capitalize(name.value), capitalize(surname.value), new Date(birthDate.value).toISOString().split('T')[0])
     name.value = ''
     surname.value = ''
     birthDate.value = ''
