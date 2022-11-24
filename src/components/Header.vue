@@ -9,10 +9,11 @@
 </template>
 
 <script setup>
-import ProfilePicture from './ProfilePicture.vue'
 import { inject } from 'vue'
+import ProfilePicture from './ProfilePicture.vue'
+import { EVENT_KEYS } from '../utils/eventKeys.js'
 const bus = inject('bus')
 function toggleDrawer() {
-  bus.emit('toggleDrawer', 1)
+  bus.emit(EVENT_KEYS.TOGGLE_DRAWER, '')
 }
 </script>
