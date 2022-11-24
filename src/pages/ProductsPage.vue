@@ -19,7 +19,7 @@ import { Product } from 'src/classes/Product'
 import ProductTile from 'src/components/ProductTile.vue'
 import { dummyProduct } from 'src/products/dummyProduct'
 const dummy = new Product(...Object.values(dummyProduct))
-const items = ref([dummy, dummy, dummy, dummy, dummy])
+const items = ref([dummy, dummy, dummy])
 
 function onLoad(index, done) {
   console.log('Loading')
