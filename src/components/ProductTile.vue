@@ -1,36 +1,40 @@
 <template>
-  <div id="q-app">
-    <div class="q-pa-md row items-start q-gutter-md" style="width: 60vh; height: 40vh;">
-      <q-card class="my-card" flat bordered>
-        <q-item>
-          <q-item-section>
-            <q-img :src="product.image" />
-          </q-item-section>
-        </q-item>
-        <q-separator />
-        <q-item-label class="text-h5">{{ product.name }}</q-item-label>
-        <q-card-section horizontal>
-          <q-card-section>
-            {{ product.description }}
-          </q-card-section>
-          <q-separator vertical />
-          <q-card-section>
-            <q-btn class=" col-1" @click="decreaseQuantity">&lt;</q-btn>
+
+  <q-card flat bordered class="q-pa-sm items-start q-gutter-md">
+    <div class="col">
+      <div class="row q-pa-sm">
+        <q-img class="col" :src="product.image" ratio="1" style="width: 200px; height: 200px;" />
+      </div>
+      <div class="row q-pa-sm">
+        <div class="col-10">
+          {{ product.name }}
+        </div>
+        <div class="col">
+          <q-btn icon="local_grocery_store" />
+        </div>
+      </div>
+      <div class="row q-pa-sm">
+        <div class="col-8">
+          {{ product.description }}
+        </div>
+        <div class="col-4">
+          <div class="row q-pt-lg">
+            <q-btn class="col" @click="decreaseQuantity">&lt;</q-btn>
             <q-btn disable>
               <template v-slot:default>
                 <q-input type="text" maxlength="2" size="2" v-model="quantity" :rules="numberOnlyRule" />
               </template>
             </q-btn>
-            <q-btn class="col-1" @click="increaseQuantity">&gt;</q-btn>
-          </q-card-section>
-        </q-card-section>
-      </q-card>
+            <q-btn class="col" @click="increaseQuantity">&gt;</q-btn>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </q-card>
 </template>
 <script setup>
 import { ref } from 'vue'
-import { Product } from '../classes/Product.js'
+import { Product } from '../models/Product.js'
 import useInputRules from '../compositionFunctions/useInputRules'
 const { numberOnlyRule } = useInputRules()
 const props = defineProps({
