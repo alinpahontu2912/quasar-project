@@ -9,30 +9,25 @@ export const useCartStore = defineStore('cart', () => {
   const totalProducts = ref(0)
 
   function addProducts(product, quantity) {
-    if (products.value.get(product)) { products.value.set(product, quantity + products.value.get(product)) } else {
-      products.value.set(product, quantity)
+    let qt = quantity
+    if (!!products.value.get(product.id)) {
+      qt += products.value.get(product.id).qt
+      products.value.set(product.id, { ...product, qt })
+    } else {
+      products.value.set(product.id, { ...product, qt })
     }
     totalProducts.value += quantity
     updateCart(createListOfProducts())
   }
 
   function removeProducts(product) {
-    // kinda shady
-    for (const element of products.value.keys()) {
-      if (element.id === product.id) {
-        products.value.delete(element)
-      }
-    }
+    totalProducts.value -= products.value.get(product.id).qt
+    products.value.delete(product.id)
     updateCart(createListOfProducts())
   }
 
   function createListOfProducts() {
-    const data = []
-    for (const key of products.value.keys()) {
-      const qt = products.value.get(key)
-      data.push({ ...key, qt })
-    }
-    return data
+    return Array.from(products.value.values())
   }
 
   function getNumberOfProducts() {
