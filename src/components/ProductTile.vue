@@ -10,7 +10,7 @@
           {{ product.name }}
         </div>
         <div class="col">
-          <q-btn icon="local_grocery_store" />
+          <q-btn icon="local_grocery_store" @click="addToCart" />
         </div>
       </div>
       <div class="row q-pa-sm">
@@ -33,23 +33,35 @@
   </q-card>
 </template>
 <script setup>
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
 import { Product } from '../models/Product.js'
 import useInputRules from '../compositionFunctions/useInputRules'
+import { useCartStore } from '../stores/cart'
+import { EVENT_KEYS } from 'src/utils/eventKeys'
+
 const { numberOnlyRule } = useInputRules()
+const store = useCartStore()
+const bus = inject('bus')
+
 const props = defineProps({
   product: Product
 })
 const quantity = ref(0)
 
 function increaseQuantity() {
-  quantity.value += 1
+  quantity.value = parseInt(quantity.value) + 1
 }
 
 function decreaseQuantity() {
   if (quantity.value > 0) {
-    quantity.value -= 1
+    quantity.value = parseInt(quantity.value) - 1
   }
+}
+
+function addToCart() {
+  store.addProducts(props.product, quantity.value)
+  quantity.value = 0
+  bus.emit(EVENT_KEYS.CART_CHANGE, '')
 }
 
 </script>
