@@ -1,7 +1,7 @@
 <template>
   <div id="q-app">
     <div class="q-pa-md">
-      <q-layout view="hHh Lpr lff" style="height: 100vh" class="shadow-2 rounded-borders">
+      <q-layout view="hHh Lpr lff">
         <Header />
         <Drawer />
         <q-page-container>

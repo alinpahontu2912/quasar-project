@@ -1,8 +1,8 @@
 <template>
   <div class="q-pa-md">
     <q-infinite-scroll @load="onLoad" :offset="250">
-      <div v-for="item in items" :key="item.id" class="caption">
-        <ProductTile :product="item" />
+      <div class="row fit justify-evenly content-center">
+        <ProductTile v-for="item in items" :key="item.id" :product="item" />
       </div>
       <template v-slot:loading>
         <div class="row justify-center q-my-md">

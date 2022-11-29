@@ -1,23 +1,28 @@
 <template>
-
-  <q-card flat bordered class="q-pa-sm items-start q-gutter-md">
-    <div class="col">
+  <div flat bordered class="col-4 q-pa-md">
+    <q-card class="q-pa-sm q-gutter-md">
       <div class="row q-pa-sm">
-        <q-img class="col" :src="product.image" ratio="1" style="width: 200px; height: 200px;" />
+        <q-img class="col" :src="product.image" ratio="1" style="width: 150px; height: 150px;" />
       </div>
       <div class="row q-pa-sm">
-        <div class="col-10">
+        <div class="col"></div>
+        <div class="col">
           {{ product.name }}
         </div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col"></div>
         <div class="col">
           <q-btn icon="local_grocery_store" @click="addToCart" />
         </div>
       </div>
       <div class="row q-pa-sm">
-        <div class="col-8">
-          {{ product.description }}
+        <div class="col">
+          <p class="p" v-if="!more"><span @click="readMore">{{ product.description.slice(0, 80) }}
+              ...read more</span></p>
+          <p class="p" v-else><span @click="readMore">{{ product.description }}</span></p>
         </div>
-        <div class="col-4">
+        <div class="col">
           <div class="row q-pt-lg">
             <q-btn class="col" @click="decreaseQuantity">&lt;</q-btn>
             <q-btn disable>
@@ -29,8 +34,9 @@
           </div>
         </div>
       </div>
-    </div>
-  </q-card>
+
+    </q-card>
+  </div>
 </template>
 <script setup>
 import { ref, inject } from 'vue'
@@ -42,11 +48,16 @@ import { EVENT_KEYS } from 'src/utils/eventKeys'
 const { numberOnlyRule } = useInputRules()
 const store = useCartStore()
 const bus = inject('bus')
+const more = ref(false)
 
 const props = defineProps({
   product: Product
 })
 const quantity = ref(0)
+
+function readMore() {
+  more.value = !more.value
+}
 
 function increaseQuantity() {
   quantity.value = parseInt(quantity.value) + 1
