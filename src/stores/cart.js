@@ -2,37 +2,30 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import useLocalStorage from '../compositionFunctions/useLocalStorage'
-const { updateCart } = useLocalStorage()
+const { updateCart, retrieveCartData, retrieveNumberOfProducts, updateTotalProducts } = useLocalStorage()
 
 export const useCartStore = defineStore('cart', () => {
-  const products = ref(new Map())
-  const totalProducts = ref(0)
-
+  const products = ref(retrieveCartData())
+  const totalProducts = ref(retrieveNumberOfProducts())
   function addProducts(product, quantity) {
-    let qt = quantity
-    if (!!products.value.get(product.id)) {
-      qt += products.value.get(product.id).qt
-      products.value.set(product.id, { ...product, qt })
+    const index = products.value.findIndex(x => x.id === product.id)
+    if (index !== -1) {
+      products.value[index].quantity += quantity
     } else {
-      products.value.set(product.id, { ...product, qt })
+      products.value.push({ ...product, quantity })
     }
     totalProducts.value += quantity
-    updateCart(createListOfProducts())
+    updateTotalProducts(totalProducts.value)
+    updateCart(products.value)
   }
 
   function removeProducts(product) {
-    totalProducts.value -= products.value.get(product.id).qt
-    products.value.delete(product.id)
-    updateCart(createListOfProducts())
+    const index = products.value.findIndex(x => x.id === product.id)
+    totalProducts.value -= products.value[index].quantity
+    products.value.splice(index, 1)
+    updateTotalProducts(totalProducts.value)
+    updateCart(products.value)
   }
 
-  function createListOfProducts() {
-    return Array.from(products.value.values())
-  }
-
-  function getNumberOfProducts() {
-    return totalProducts.value
-  }
-
-  return { products, addProducts, removeProducts, createListOfProducts, getNumberOfProducts }
+  return { products, totalProducts, addProducts, removeProducts }
 })

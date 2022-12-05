@@ -39,15 +39,13 @@
   </div>
 </template>
 <script setup>
-import { ref, inject } from 'vue'
+import { ref } from 'vue'
 import { Product } from '../models/Product.js'
 import useInputRules from '../compositionFunctions/useInputRules'
 import { useCartStore } from '../stores/cart'
-import { EVENT_KEYS } from 'src/utils/eventKeys'
 
 const { numberOnlyRule } = useInputRules()
 const store = useCartStore()
-const bus = inject('bus')
 const more = ref(false)
 
 const props = defineProps({
@@ -72,7 +70,6 @@ function decreaseQuantity() {
 function addToCart() {
   store.addProducts(props.product, quantity.value)
   quantity.value = 0
-  bus.emit(EVENT_KEYS.CART_CHANGE, '')
 }
 
 </script>
