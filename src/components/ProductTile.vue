@@ -40,7 +40,7 @@
 </template>
 <script setup>
 import { ref } from 'vue'
-import { Product } from '../models/Product.js'
+import { Product } from '../classes/Product.js'
 import useInputRules from '../compositionFunctions/useInputRules'
 import { useCartStore } from '../stores/cart'
 
