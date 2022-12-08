@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <div flat bordered class="col-4 q-pa-md">
     <q-card class="q-pa-sm q-gutter-md">
       <div class="row q-pa-sm">
@@ -25,11 +26,31 @@
         <div class="col">
           <div class="row q-pt-lg">
             <q-btn class="col" @click="decreaseQuantity">&lt;</q-btn>
+=======
+  <div id="q-app">
+    <div class="q-pa-md row items-start q-gutter-md" style="width: 60vh; height: 40vh;">
+      <q-card class="my-card" flat bordered>
+        <q-item>
+          <q-item-section>
+            <q-img :src="product.image" />
+          </q-item-section>
+        </q-item>
+        <q-separator />
+        <q-item-label class="text-h5">{{ product.name }}</q-item-label>
+        <q-card-section horizontal>
+          <q-card-section>
+            {{ product.description }}
+          </q-card-section>
+          <q-separator vertical />
+          <q-card-section>
+            <q-btn class=" col-1" @click="decreaseQuantity">&lt;</q-btn>
+>>>>>>> 8f744d416a1af96ea7354a81364e41654f7d358a
             <q-btn disable>
               <template v-slot:default>
                 <q-input type="text" maxlength="2" size="2" v-model="quantity" :rules="numberOnlyRule" />
               </template>
             </q-btn>
+<<<<<<< HEAD
             <q-btn class="col" @click="increaseQuantity">&gt;</q-btn>
           </div>
         </div>
@@ -41,6 +62,18 @@
 <script setup>
 import { ref, inject } from 'vue'
 import { Product } from '../models/Product.js'
+=======
+            <q-btn class="col-1" @click="increaseQuantity">&gt;</q-btn>
+          </q-card-section>
+        </q-card-section>
+      </q-card>
+    </div>
+  </div>
+</template>
+<script setup>
+import { ref } from 'vue'
+import { Product } from '../classes/Product.js'
+>>>>>>> 8f744d416a1af96ea7354a81364e41654f7d358a
 import useInputRules from '../compositionFunctions/useInputRules'
 import { useCartStore } from '../stores/cart'
 import { EVENT_KEYS } from 'src/utils/eventKeys'
