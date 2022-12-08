@@ -1,5 +1,5 @@
 <template>
-  <q-drawer bordered :width="300" :breakpoint="300" show-if-above v-model="toggled">
+  <q-drawer overlay bordered :width="300" :breakpoint="300" show-if-above v-model="toggled">
     <q-scroll-area class="fit">
       <q-list padding class="menu-list">
         <q-item>
@@ -34,7 +34,10 @@ const items = ref([
 ])
 
 bus.on(EVENT_KEYS.TOGGLE_DRAWER, () => {
-  toggled.value = !toggled.value
+  const desktop = screen.width >= 600
+  if (desktop) {
+    toggled.value = !toggled.value
+  }
 })
 
 </script>
