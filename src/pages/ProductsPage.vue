@@ -1,8 +1,8 @@
 <template>
   <div class="q-pa-md">
     <q-infinite-scroll @load="onLoad" :offset="250">
-      <div class="row fit justify-evenly content-center">
-        <ProductTile v-for="item in items" :key="item.id" :product="item" />
+      <div v-for="(item, index) in items" :key="index" class="caption">
+        <ProductTile :product="item" />
       </div>
       <template v-slot:loading>
         <div class="row justify-center q-my-md">
@@ -11,11 +11,10 @@
       </template>
     </q-infinite-scroll>
   </div>
-
 </template>
 <script setup>
 import { ref } from 'vue'
-import { Product } from 'src/models/Product'
+import { Product } from 'src/classes/Product'
 import ProductTile from 'src/components/ProductTile.vue'
 import { dummyProduct } from 'src/products/dummyProduct'
 const dummy = new Product(...Object.values(dummyProduct))
