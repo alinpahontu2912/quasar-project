@@ -11,7 +11,6 @@
       </template>
     </q-infinite-scroll>
   </div>
-
 </template>
 <script setup>
 import { ref } from 'vue'
