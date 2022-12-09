@@ -3,6 +3,7 @@
     <div class="row no-wrap items-center q-mt-md q-pa-sm">
       <q-btn flat @click="toggleDrawer" round dense icon="menu"></q-btn>
       <q-space />
+      <ShoppingCart />
       <ProfilePicture />
     </div>
   </q-header>
@@ -12,6 +13,7 @@
 import { inject } from 'vue'
 import ProfilePicture from './ProfilePicture.vue'
 import { EVENT_KEYS } from '../utils/eventKeys.js'
+import ShoppingCart from './ShoppingCart.vue'
 const bus = inject('bus')
 function toggleDrawer() {
   bus.emit(EVENT_KEYS.TOGGLE_DRAWER, '')

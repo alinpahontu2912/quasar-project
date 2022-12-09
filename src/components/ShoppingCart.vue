@@ -37,13 +37,6 @@
 </template>
 <script setup>
 import { useCartStore } from '../stores/cart'
-import { ref } from 'vue'
-
-const store = useCartStore()
-const products = ref(store.products)
-
-function removeProduct(value) {
-  store.removeProducts(value)
-}
+const { products, removeProduct } = useCartStore()
 
 </script>
