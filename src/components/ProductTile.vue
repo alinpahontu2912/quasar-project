@@ -1,5 +1,4 @@
 <template>
-
   <div class="col-12 col-sm-6 col-md-4 q-pa-md">
     <q-card flat bordered>
       <div class="row">
@@ -45,20 +44,19 @@
   </div>
 </template>
 <script setup>
-// q-gutter-md
+
 import { ref } from 'vue'
 import { Product } from '../models/Product.js'
 import useInputRules from '../compositionFunctions/useInputRules'
 import { useCartStore } from '../stores/cart'
 
 const { numberOnlyRule } = useInputRules()
-const store = useCartStore()
+const { addProduct } = useCartStore()
 const more = ref(false)
-
+const quantity = ref(0)
 const props = defineProps({
   product: Product
 })
-const quantity = ref(0)
 
 function readMore() {
   more.value = !more.value
@@ -75,7 +73,7 @@ function decreaseQuantity() {
 }
 
 function addToCart() {
-  if (quantity.value !== 0) { store.addProducts(props.product, quantity.value) }
+  if (quantity.value !== 0) { addProduct(props.product, quantity.value) }
   quantity.value = 0
 }
 

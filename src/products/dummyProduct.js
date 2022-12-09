@@ -1,5 +1,4 @@
 export const dummyProduct = {
-  id: 0,
   name: 'Minge',
   price: 15,
   image: 'https://cdn.quasar.dev/img/parallax2.jpg',
