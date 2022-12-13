@@ -1,19 +1,18 @@
 <template>
   <div class="col-12 col-sm-6 col-md-4 q-pa-md">
-    <q-card flat bordered>
+    <q-card flat bordered class="q-pa-md">
       <div class="row">
         <div class="col-4 col-sm-12 col-md-12 q-pa-sm row content-center">
-          <q-img :src="product.image" />
+          <q-img :src="product.image" :ratio="4 / 3" />
         </div>
         <div class="col-8 col-sm-12 col-md-12 row">
           <div class="col-12 col-sm-6 col-md-6">
             <div class="col-12 col-sm-12 col-md-12 q-pa-sm row justify-center">
               <p style="font-size:2em; text-transform: capitalize">{{ product.name }}</p>
             </div>
-            <div class="col-12 col-sm-12 col-md-12 q-pl-md row justify-center">
-              <p v-if="!more" @click="readMore">{{ product.description.slice(0, 80) }}
-                ...read more</p>
-              <p v-else><span @click="readMore">{{ product.description }}</span></p>
+            <div class="col-12 col-sm-12 col-md-12 q-pa-md row justify-center"
+              style="overflow-y: scroll; height: 100px;">
+              {{ product.description }}
             </div>
           </div>
           <div class="col-12 col-sm-6 col-md-6 row">
