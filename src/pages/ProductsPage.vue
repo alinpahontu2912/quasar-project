@@ -17,18 +17,28 @@
 import { ref } from 'vue'
 import { Product } from 'src/models/Product'
 import ProductTile from 'src/components/ProductTile.vue'
-import { dummyProduct1, dummyProduct2, dummyProduct3 } from 'src/products/dummyProduct'
-const dummy1 = new Product(...Object.values(dummyProduct1))
-const dummy2 = new Product(...Object.values(dummyProduct2))
-const dummy3 = new Product(...Object.values(dummyProduct3))
-const items = ref([dummy1, dummy2, dummy3, dummy1, dummy2, dummy3])
-
-function onLoad(index, done) {
-  console.log('Loading')
-  setTimeout(() => {
-    items.value.push(dummy3, dummy2, dummy1, dummy3, dummy2)
-    done()
-  }, 2000)
+import { endpoints } from 'src/endpoints/endpoints'
+const items = ref([])
+const httpReq = new XMLHttpRequest()
+httpReq.open('GET', endpoints.ALL_PRODUCTS)
+httpReq.send()
+httpReq.onload = function () {
+  if (httpReq.status === 200) {
+    const data = JSON.parse(httpReq.responseText)
+    for (let i = 0; i < data.length; i++) {
+      items.value.push(new Product(...Object.values(data[i])))
+    }
+  } else if (httpReq.status === 404) {
+    console.log('No records found')
+  }
 }
+
+// function onLoad(index, done) {
+//   console.log('Loading')
+//   setTimeout(() => {
+//     items.value.push(dummy3, dummy2, dummy1, dummy3, dummy2)
+//     done()
+//   }, 2000)
+// }
 
 </script>
