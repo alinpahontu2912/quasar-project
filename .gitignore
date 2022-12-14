@@ -34,3 +34,19 @@ yarn-error.log*
 
 # api clutter
 ./ProductFunctions/.vs
+ProductFunctions/.vs/slnx.sqlite
+ProductFunctions/.vs/VSWorkspaceState.json
+ProductFunctions/.vs/.vs/slnx.sqlite
+ProductFunctions/.vs/.vs/VSWorkspaceState.json
+ProductFunctions/.vs/.vs/.vs/v17/.wsuo
+ProductFunctions/.vs/ProductFunctions/DesignTimeBuild/.dtbcache.v2
+ProductFunctions/.vs/ProductFunctions/FileContentIndex/82d5d72a-5ef5-4ded-97d0-9c47d8a92aab.vsidx
+ProductFunctions/.vs/ProductFunctions/FileContentIndex/653f5737-25b6-452d-a911-36fff1a42335.vsidx
+ProductFunctions/.vs/ProductFunctions/FileContentIndex/c7bcb376-a921-4488-9c11-a1c17fee5236.vsidx
+ProductFunctions/.vs/ProductFunctions/FileContentIndex/f585e1a1-e281-41dc-9990-2589dc7167c8.vsidx
+ProductFunctions/.vs/ProductFunctions/FileContentIndex/read.lock
+ProductFunctions/.vs/ProductFunctions/config/applicationhost.config
+ProductFunctions/.vs/ProductFunctions/v17/.futdcache.v2
+ProductFunctions/.vs/ProductFunctions/v17/.wsuo
+ProductFunctions/.vs/ProjectEvaluation/productfunctions.metadata.v5.2
+ProductFunctions/.vs/ProjectEvaluation/productfunctions.projects.v5.2
