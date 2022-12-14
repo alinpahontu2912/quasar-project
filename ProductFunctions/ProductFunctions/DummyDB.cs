@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace ProductFunctions
 {
-    internal class DummyDB
-    {
-        public List<Product> onDisplayProducts { get; set; }
-        private string jsonProducts = @"[
+  internal class DummyDB
+  {
+    public List<Product> onDisplayProducts { get; set; }
+    private string jsonProducts = @"[
     {
         ""id"": 0,
         ""name"": ""Pod"",
@@ -36,13 +36,16 @@ namespace ProductFunctions
     }
 ]
 ";
-        private JsonSerializerOptions options = new JsonSerializerOptions { IncludeFields = true, NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals };
-        public DummyDB()
-        {
-            onDisplayProducts = new();
-            List<Product> initialList = JsonSerializer.Deserialize<List<Product>>(jsonProducts, options);
-            onDisplayProducts.AddRange(initialList);
-            onDisplayProducts.AddRange(initialList);
-        }
+    private JsonSerializerOptions options = new JsonSerializerOptions { IncludeFields = true, NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals };
+    public DummyDB()
+    {
+      onDisplayProducts = new();
+      List<Product> initialList = JsonSerializer.Deserialize<List<Product>>(jsonProducts, options);
+      for (int i = 0; i < 18; i++)
+      {
+        onDisplayProducts.AddRange(initialList);
+        onDisplayProducts.AddRange(initialList);
+      }
     }
+  }
 }
