@@ -4,7 +4,7 @@
       <q-layout view="hHh Lpr lff">
         <Header />
         <Drawer />
-        <q-page-container>
+        <q-page-container style="height: 80vh;">
           <q-page padding>
             <router-view />
           </q-page>

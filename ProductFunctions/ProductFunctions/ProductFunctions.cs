@@ -22,14 +22,30 @@ namespace ProductFunctions
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = "products")] HttpRequest req,
         ILogger log)
     {
-      int pageNumber = Int32.Parse(req.Query["page"]);
-      int pageSize = Int32.Parse(req.Query["pgsize"]);
-      List<Product> newProducts = productService.GET(pageNumber-1, pageSize);
-      if (newProducts.Count > 0) {
-        return new OkObjectResult(JsonConvert.SerializeObject(newProducts, Formatting.Indented));
-      } else {
-        return new NoContentResult();
+
+      if (!string.IsNullOrEmpty(req.Query["page"])  && !string.IsNullOrEmpty(req.Query["pgsize"]))
+      {
+
+        int pageNumber = Int32.Parse(req.Query["page"]);
+        int pageSize = Int32.Parse(req.Query["pgsize"]);
+        List<Product> newProducts = productService.GetNewProducts(pageNumber-1, pageSize);
+        if (newProducts.Count > 0)
+        {
+          return new OkObjectResult(JsonConvert.SerializeObject(newProducts, Formatting.Indented));
+        }
+        else
+        {
+          return new NoContentResult();
+        }
       }
+      else
+      {
+        List<Product> newProducts = productService.GetAllProducts();
+        return new OkObjectResult(JsonConvert.SerializeObject(newProducts, Formatting.Indented));
+      }
+
+
+
     }
 
     [FunctionName("addProduct")]
@@ -39,8 +55,8 @@ ILogger log)
     {
       log.LogInformation("C# HTTP trigger function processed a request.");
       string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-      int succesfull = productService.POST(requestBody);
-      return succesfull == 1 ? new OkObjectResult("[OK] Product added")
+      bool succesfull = productService.AddNewProduct(requestBody);
+      return succesfull ? new OkObjectResult("[OK] Product added")
         : new BadRequestObjectResult("Not a valid product");
     }
 
@@ -50,8 +66,8 @@ ILogger log)
 ILogger log)
     {
       log.LogInformation("C# HTTP trigger function processed a request.");
-      int succesfullDelete = productService.DELETE(id);
-      return succesfullDelete == 1 ? new OkObjectResult("[OK] Product removed")
+      bool succesfullDelete = productService.DeleteProduct(id);
+      return succesfullDelete ? new OkObjectResult("[OK] Product removed")
         : new BadRequestObjectResult("No such product exists");
     }
 
@@ -61,12 +77,9 @@ ILogger log)
 ILogger log)
     {
       log.LogInformation("C# HTTP trigger function processed a request.");
-      int successfull = productService.POST(id, price);
-      return successfull == 1 ? new OkObjectResult("[OK] Price updated")
+      bool successfull = productService.UpdatePrice(id, price);
+      return successfull ? new OkObjectResult("[OK] Price updated")
         : new BadRequestErrorMessageResult("Price is not accepted");
-
-
-
     }
 
   }

@@ -30,7 +30,8 @@ let id = 0
 const items = ref([
   { id: id++, pageRoute: '/', pageName: 'Home' },
   { id: id++, pageRoute: '/hello', pageName: 'Hello' },
-  { id: id++, pageRoute: '/products', pageName: 'Products' }
+  { id: id++, pageRoute: '/products', pageName: 'Products' },
+  { id: id++, pageRoute: '/control', pageName: 'Control' }
 ])
 
 bus.on(EVENT_KEYS.TOGGLE_DRAWER, () => {
