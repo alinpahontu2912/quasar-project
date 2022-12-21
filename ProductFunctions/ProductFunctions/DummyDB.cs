@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -6,6 +8,24 @@ namespace ProductFunctions
 {
   internal class DummyDB
   {
+    SqlConnection conn = new(@"Server=DEVSQL\SQL2012;Database=training_alin;Trusted_Connection=True;");
+
+    public void test()
+    {
+      conn.Open();
+      using (SqlCommand cmd = new("select * from Product;", conn))
+      {
+        using (SqlDataReader reader = cmd.ExecuteReader())
+        {
+          while (reader.Read())
+          {
+            Console.WriteLine(String.Format("{0}, {1}, {2}, {3}, {4}",
+                reader[0], reader[1], reader[2], reader[3], reader[4]));
+          }
+        }
+      }
+    }
+
     public List<Product> onDisplayProducts { get; set; }
     private string jsonProducts = @"[{
   ""id"": 1,
