@@ -1,17 +1,15 @@
 <template>
-  <q-header elevated class="bg-black">
-    <div class="row no-wrap items-center q-mt-md q-pa-sm">
-      <q-btn flat @click="toggleDrawer" round dense icon="menu"></q-btn>
-      <ShoppingCart />
-      <q-space />
-      <q-select @update:model-value="changePageSize" class="q-pa-md" color="grey" outlined label-color="white"
-        v-model="pageSize" :options="options">
-        <template v-slot:append>
-          <q-icon name="receipt" color="white" />
-        </template>
-      </q-select>
-      <ProfilePicture />
-    </div>
+  <q-header elevated class="bg-black row no-wrap items-center" style="height: 10vh;">
+    <q-btn flat @click="toggleDrawer" round dense icon="menu"></q-btn>
+    <ShoppingCart />
+    <q-space />
+    <q-select @update:model-value="changePageSize" class="q-pa-md" color="grey" outlined label-color="white"
+      v-model="pageSize" :options="options">
+      <template v-slot:append>
+        <q-icon name="receipt" color="white" />
+      </template>
+    </q-select>
+    <ProfilePicture />
   </q-header>
 </template>
 

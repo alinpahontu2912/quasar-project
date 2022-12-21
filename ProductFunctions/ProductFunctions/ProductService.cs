@@ -8,18 +8,18 @@ namespace ProductFunctions
   {
     public DummyDB dummyDB { get; set; }
 
-    public int DELETE(int productId)
+    public bool DeleteProduct(int productId)
     {
       var requestedProduct = dummyDB.onDisplayProducts.Find(product => product.id ==  productId);
       if (requestedProduct != null)
       {
         dummyDB.onDisplayProducts.Remove(requestedProduct);
-        return 1;
+        return true;
       }
-      return 0;
+      return false;
     }
 
-    public List<Product> GET(int pageNumber, int pageSize)
+    public List<Product> GetNewProducts(int pageNumber, int pageSize)
     {
       List<Product> newProducts = new();
       if (pageNumber * pageSize + pageSize <= dummyDB.onDisplayProducts.Count)
@@ -34,7 +34,11 @@ namespace ProductFunctions
       return newProducts;
     }
 
-    public int POST(string data)
+    public List<Product> GetAllProducts() {
+      return dummyDB.onDisplayProducts;
+    }
+
+    public bool AddNewProduct(string data)
     {
       try
       {
@@ -43,26 +47,26 @@ namespace ProductFunctions
       }
       catch (Exception ex)
       {
-        return 0;
+        return false;
       }
 
-      return 1;
+      return true;
     }
 
-    public int POST(int id, int newPrice)
+    public bool UpdatePrice(int id, int newPrice)
     {
       var requestedProduct = dummyDB.onDisplayProducts.Find(product => product.id == id);
       if (requestedProduct == null)
       {
-        return 0;
+        return false;
       }
       else if (newPrice > 0)
       {
         requestedProduct.price = newPrice;
-        return 1;
+        return true;
       }
 
-      return 0;
+      return false;
 
     }
 
