@@ -28,7 +28,7 @@ namespace ProductFunctions
 
         int pageNumber = Int32.Parse(req.Query["page"]);
         int pageSize = Int32.Parse(req.Query["pgsize"]);
-        List<Product> newProducts = await productService.GetNewProducts(pageNumber - 1, pageSize);
+        List<Product> newProducts = productService.GetNewProducts(pageNumber - 1, pageSize);
         if (newProducts.Count > 0)
         {
           return new OkObjectResult(JsonConvert.SerializeObject(newProducts, Formatting.Indented));
