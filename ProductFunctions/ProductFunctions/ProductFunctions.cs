@@ -28,7 +28,7 @@ namespace ProductFunctions
 
         int pageNumber = Int32.Parse(req.Query["page"]);
         int pageSize = Int32.Parse(req.Query["pgsize"]);
-        List<Product> newProducts = productService.GetNewProducts(pageNumber-1, pageSize);
+        List<Product> newProducts = productService.GetNewProducts(pageNumber - 1, pageSize);
         if (newProducts.Count > 0)
         {
           return new OkObjectResult(JsonConvert.SerializeObject(newProducts, Formatting.Indented));
@@ -55,7 +55,7 @@ ILogger log)
     {
       log.LogInformation("C# HTTP trigger function processed a request.");
       string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-      bool succesfull = productService.AddNewProduct(requestBody);
+      bool succesfull = await productService.AddNewProduct(requestBody);
       return succesfull ? new OkObjectResult("[OK] Product added")
         : new BadRequestObjectResult("Not a valid product");
     }
@@ -66,7 +66,7 @@ ILogger log)
 ILogger log)
     {
       log.LogInformation("C# HTTP trigger function processed a request.");
-      bool succesfullDelete = productService.DeleteProduct(id);
+      bool succesfullDelete = await productService.DeleteProduct(id);
       return succesfullDelete ? new OkObjectResult("[OK] Product removed")
         : new BadRequestObjectResult("No such product exists");
     }
@@ -77,7 +77,7 @@ ILogger log)
 ILogger log)
     {
       log.LogInformation("C# HTTP trigger function processed a request.");
-      bool successfull = productService.UpdatePrice(id, price);
+      bool successfull = await productService.UpdatePrice(id, price);
       return successfull ? new OkObjectResult("[OK] Price updated")
         : new BadRequestErrorMessageResult("Price is not accepted");
     }
