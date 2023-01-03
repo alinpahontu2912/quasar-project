@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace ProductFunctions
+namespace StoreFunctions
 {
   public class Product
   {

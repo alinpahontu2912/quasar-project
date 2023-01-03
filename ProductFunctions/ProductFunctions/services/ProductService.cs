@@ -1,16 +1,14 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using StoreFunctions;
 
-namespace ProductFunctions {
+namespace ProductFunctions
+{
   internal class ProductService
   {
-    public DummyDB dummyDB = new DummyDB();
-
-    SqlConnection conn = new(@"Server=DEVSQL\SQL2012;Database=training_alin;Trusted_Connection=True;");
 
     public async Task<bool> DeleteProduct(int productId)
     {
@@ -142,15 +140,6 @@ namespace ProductFunctions {
       }
     }
 
-    public async Task populateDB()
-    {
-
-      foreach (var prod in dummyDB.onDisplayProducts)
-      {
-        string data = JsonConvert.SerializeObject(prod, Formatting.Indented);
-        await AddNewProduct(data);
-      }
-    }
-
   }
 }
+

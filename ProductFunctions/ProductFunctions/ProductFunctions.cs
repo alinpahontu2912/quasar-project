@@ -9,6 +9,7 @@ using System.Web.Http;
 using System;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using StoreFunctions;
 
 namespace ProductFunctions
 {
@@ -84,3 +85,4 @@ ILogger log)
 
   }
 }
+

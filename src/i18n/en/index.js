@@ -7,5 +7,6 @@ export default {
   hello: 'Hello',
   submit: 'Incarca',
   pages: 'Pagini',
+  account: 'Contul tau',
   not_a_valid_number: 'Numar invalid'
 }

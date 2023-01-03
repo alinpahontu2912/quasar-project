@@ -1,14 +1,16 @@
 <template>
-  <q-btn round class="bg-white">
-    <q-tooltip transition-show="flip-right" transition-hide="flip-left" class="bg-indigo text-black shadow-4"
-      :offset="[10, 10]">
-      Poza de profil
-    </q-tooltip>
-    <q-avatar size="60px" @click="onAvatarClick">
-      <q-file v-show="false" ref="filePicker" filled outlined v-model="model" spinner-color="white" />
-      <q-img :src="photo" />
-    </q-avatar>
-  </q-btn>
+  <div class="q-pa-md">
+    <q-btn round class="bg-white">
+      <q-tooltip transition-show="flip-right" transition-hide="flip-left" class="bg-indigo text-black shadow-4"
+        :offset="[10, 10]">
+        Poza de profil
+      </q-tooltip>
+      <q-avatar size="60px" @click="onAvatarClick">
+        <q-file v-show="false" ref="filePicker" filled outlined v-model="model" spinner-color="white" />
+        <q-img :src="photo" />
+      </q-avatar>
+    </q-btn>
+  </div>
 </template>
 
 <script setup>

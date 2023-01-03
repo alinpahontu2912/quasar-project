@@ -1,9 +1,12 @@
 import { Product } from 'src/models/Product'
+import { User } from 'src/models/User'
+
 import axios from 'axios'
-const endpoint = 'http://localhost:7023/api/products/'
+const storeEndpoint = 'http://localhost:7023/api/products/'
+const userEndpoint = ' http://localhost:7023/api/users/'
 
 function createPageNumberQuery(pageNumber, pageSize) {
-  const target = new URL(endpoint)
+  const target = new URL(storeEndpoint)
   const params = new URLSearchParams()
   params.set('pgsize', pageSize)
   params.set('page', pageNumber)
@@ -11,19 +14,41 @@ function createPageNumberQuery(pageNumber, pageSize) {
   return target.href
 }
 
+function createUserCredentialsQuery(user, password) {
+  const target = new URL(userEndpoint)
+  const params = new URLSearchParams()
+  params.set('user', user)
+  params.set('pswd', password)
+  target.search = params.toString()
+  return target.href
+}
+
 function createDeleteIdQuery(productId) {
-  const target = new URL(endpoint + 'delete/')
+  const target = new URL(storeEndpoint + 'delete/')
   return target.href + productId
 }
 
 function createPriceUpdateQuery(productId, newPrice) {
-  const target = new URL(endpoint)
+  const target = new URL(storeEndpoint)
   return target.href + productId + '/' + newPrice
 }
 
 export default function () {
+  async function verifyUserCredentials(user, password) {
+    // todo
+    const response = await axios.get(createUserCredentialsQuery)
+    return response.status === 200
+  }
+
+  async function addNewUser(email, fullName, phoneNumber, password, address) {
+    const newUser = new User(email, fullName, phoneNumber, password, address)
+    const response = await axios.post(userEndpoint + 'add/', newUser)
+    console.log(response.body)
+    return response.status === 200
+  }
+
   async function getNoPaginationProducts() {
-    const response = await axios.get(endpoint)
+    const response = await axios.get(storeEndpoint)
     const data = response.data
     const products = []
     for (let i = 0; i < data.length; i++) {
@@ -53,9 +78,9 @@ export default function () {
 
   async function addProduct(productId, name, price, description, image) {
     const newProd = new Product(productId, name, price, description, image)
-    const response = await axios.post(endpoint + 'add/', newProd)
+    const response = await axios.post(storeEndpoint + 'add/', newProd)
     return response.status === 200
   }
 
-  return { getNoPaginationProducts, deleteProduct, loadPage, updateProductPrice, addProduct }
+  return { getNoPaginationProducts, deleteProduct, loadPage, updateProductPrice, addProduct, addNewUser }
 }

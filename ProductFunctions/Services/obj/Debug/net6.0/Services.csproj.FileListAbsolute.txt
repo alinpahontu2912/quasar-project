@@ -1,0 +1,12 @@
+C:\Users\AlinP\Practice\project1\hello-world\quasar\quasar-project\ProductFunctions\Services\bin\Debug\net6.0\Services.deps.json
+C:\Users\AlinP\Practice\project1\hello-world\quasar\quasar-project\ProductFunctions\Services\bin\Debug\net6.0\Services.dll
+C:\Users\AlinP\Practice\project1\hello-world\quasar\quasar-project\ProductFunctions\Services\bin\Debug\net6.0\Services.pdb
+C:\Users\AlinP\Practice\project1\hello-world\quasar\quasar-project\ProductFunctions\Services\obj\Debug\net6.0\Services.csproj.AssemblyReference.cache
+C:\Users\AlinP\Practice\project1\hello-world\quasar\quasar-project\ProductFunctions\Services\obj\Debug\net6.0\Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\AlinP\Practice\project1\hello-world\quasar\quasar-project\ProductFunctions\Services\obj\Debug\net6.0\Services.AssemblyInfoInputs.cache
+C:\Users\AlinP\Practice\project1\hello-world\quasar\quasar-project\ProductFunctions\Services\obj\Debug\net6.0\Services.AssemblyInfo.cs
+C:\Users\AlinP\Practice\project1\hello-world\quasar\quasar-project\ProductFunctions\Services\obj\Debug\net6.0\Services.csproj.CoreCompileInputs.cache
+C:\Users\AlinP\Practice\project1\hello-world\quasar\quasar-project\ProductFunctions\Services\obj\Debug\net6.0\Services.dll
+C:\Users\AlinP\Practice\project1\hello-world\quasar\quasar-project\ProductFunctions\Services\obj\Debug\net6.0\refint\Services.dll
+C:\Users\AlinP\Practice\project1\hello-world\quasar\quasar-project\ProductFunctions\Services\obj\Debug\net6.0\Services.pdb
+C:\Users\AlinP\Practice\project1\hello-world\quasar\quasar-project\ProductFunctions\Services\obj\Debug\net6.0\ref\Services.dll
