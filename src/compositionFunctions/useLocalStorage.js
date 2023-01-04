@@ -5,25 +5,20 @@ const LOCAL_STORAGE_KEY = {
   CART_ITEMS: 'CartItems',
   TOTAL_PRODUCTS: 'numberOfProducts',
   DARK_MODE: 'darkMode',
-  USER_MAIL: 'userMail',
-  USER_PASSWORD: 'userPassword'
+  USER_TOKEN: 'authenticaton_token'
 }
 
 export default function () {
-  function saveUserData(user, password) {
+  function saveUserData(auth_token) {
     try {
-      LocalStorage.set(LOCAL_STORAGE_KEY.USER_MAIL, user)
-      LocalStorage.set(LOCAL_STORAGE_KEY.USER_PASSWORD, password)
+      LocalStorage.set(LOCAL_STORAGE_KEY.USER_TOKEN, auth_token)
     } catch (e) {
       console.log('Could not save data on local storage')
     }
   }
 
   function retrieveUserData() {
-    return {
-      email: LocalStorage.getItem(LOCAL_STORAGE_KEY.USER_MAIL),
-      pass: LocalStorage.getItem(LOCAL_STORAGE_KEY.USER_PASSWORD)
-    }
+    return LocalStorage.getItem(LOCAL_STORAGE_KEY.USER_TOKEN) || null
   }
 
   function setDarkMode(value) {

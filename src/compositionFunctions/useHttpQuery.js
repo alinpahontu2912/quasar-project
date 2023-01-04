@@ -3,7 +3,7 @@ import { User } from 'src/models/User'
 
 import axios from 'axios'
 const storeEndpoint = 'http://localhost:7023/api/products/'
-const userEndpoint = ' http://localhost:7023/api/users/'
+const userEndpoint = ' http://localhost:7023/api/users'
 
 function createPageNumberQuery(pageNumber, pageSize) {
   const target = new URL(storeEndpoint)
@@ -35,16 +35,24 @@ function createPriceUpdateQuery(productId, newPrice) {
 
 export default function () {
   async function verifyUserCredentials(user, password) {
-    // todo
-    const response = await axios.get(createUserCredentialsQuery)
-    return response.status === 200
+    try {
+      const response = await axios.get(createUserCredentialsQuery(user, password))
+      if (response.status === 200) {
+        return response.data
+      }
+    } catch (error) {
+      return null
+    }
   }
 
   async function addNewUser(email, fullName, phoneNumber, password, address) {
     const newUser = new User(email, fullName, phoneNumber, password, address)
-    const response = await axios.post(userEndpoint + 'add/', newUser)
-    console.log(response.body)
-    return response.status === 200
+    try {
+      const response = await axios.post(userEndpoint + '/add/', newUser)
+      return response.data
+    } catch (error) {
+      return null
+    }
   }
 
   async function getNoPaginationProducts() {
@@ -82,5 +90,5 @@ export default function () {
     return response.status === 200
   }
 
-  return { getNoPaginationProducts, deleteProduct, loadPage, updateProductPrice, addProduct, addNewUser }
+  return { getNoPaginationProducts, deleteProduct, loadPage, updateProductPrice, addProduct, addNewUser, verifyUserCredentials }
 }

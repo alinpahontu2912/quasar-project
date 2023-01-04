@@ -29,8 +29,7 @@
             <q-input square filled clearable v-model="email" type="email" label="email" class="q-pa-md col-12" />
             <q-input square filled clearable v-model="password" type="password" label="password"
               class="q-pa-md col-12" />
-            <q-btn unelevated color="light-green-7" size="md" class="q-pa-md col-12" label="Login"
-              @submit.prevent="login" />
+            <q-btn unelevated color="light-green-7" size="md" class="q-pa-md col-12" label="Login" @click="login" />
             <q-checkbox left-label v-model="remainSignedIn" label="Stay logged in" checked-icon="task_alt"
               unchecked-icon="highlight_off" />
           </q-form>
@@ -42,7 +41,11 @@
 <script setup>
 import { ref } from 'vue'
 import useHttpQuery from 'src/compositionFunctions/useHttpQuery'
-const { addNewUser } = useHttpQuery()
+import useLocalStorage from 'src/compositionFunctions/useLocalStorage'
+import { useRouter } from 'vue-router'
+const { saveUserData } = useLocalStorage()
+const { addNewUser, verifyUserCredentials } = useHttpQuery()
+const router = useRouter()
 const tab = ref('one')
 const email = ref('')
 const fullName = ref('')
@@ -51,9 +54,34 @@ const address = ref('')
 const phoneNumber = ref('')
 const remainSignedIn = ref(true)
 
+function resetForm() {
+  email.value = ''
+  fullName.value = ''
+  phoneNumber.value = ''
+  password.value = ''
+  address.value = ''
+}
+
 async function signUp() {
   const response = await addNewUser(email.value, fullName.value, phoneNumber.value, password.value, address.value)
-  console.log(response.body)
+  resetForm()
+  if (response) {
+    if (remainSignedIn.value) { saveUserData(response) }
+    router.replace({
+      path: '/store/products'
+    })
+  }
+}
+
+async function login() {
+  const response = await verifyUserCredentials(email.value, password.value)
+  resetForm()
+  if (response) {
+    if (remainSignedIn.value) { saveUserData(response) }
+    router.replace({
+      path: '/store/products'
+    })
+  }
 }
 
 </script>

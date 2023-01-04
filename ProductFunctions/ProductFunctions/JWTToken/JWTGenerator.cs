@@ -2,6 +2,7 @@ using JWT.Algorithms;
 using JWT.Serializers;
 using JWT;
 using System.Collections.Generic;
+using System;
 
 namespace StoreFunctions
 {
@@ -32,7 +33,8 @@ namespace StoreFunctions
                     "admin"
                 }
             };
-      string token = _jwtEncoder.Encode(claims, "Your Secret Securtity key string"); // Put this key in config
+      Console.WriteLine(Environment.GetEnvironmentVariable($"ConnectionStrings:jwtKey"));
+      string token = _jwtEncoder.Encode(claims, Environment.GetEnvironmentVariable($"ConnectionStrings:jwtKey", EnvironmentVariableTarget.Process)); // Put this key in config
       return token;
     }
   }

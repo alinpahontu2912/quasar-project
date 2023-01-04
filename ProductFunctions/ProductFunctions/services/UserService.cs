@@ -1,25 +1,13 @@
-using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using XAct;
-using XSystem.Security.Cryptography;
 
 namespace StoreFunctions
 {
   internal class UserService
   {
-
-
-    public string hashPassword(string password) {
-      var md5 = new MD5CryptoServiceProvider();
-      var md5data = md5.ComputeHash(password.ToByteArray());
-      return Encoding.UTF8.GetString(md5data);
-    }
-
-
     public List<User> GetAllUsers()
     {
 
@@ -38,41 +26,37 @@ namespace StoreFunctions
       return allUsers;
     }
 
-    public User FindUser(string email) {
+    public async Task<User> FindUser(string email, string password)
+    {
       User wantedUser = null;
-      try
+      using (var dataBase = new TrainingAlinContext())
       {
-        using (var dataBase = new TrainingAlinContext())
+        wantedUser = await dataBase.Users.Where(user => user.Email == email).FirstAsync();
+        if (wantedUser.HashPass == Utils.hashPassword(password))
         {
-          wantedUser = (User)dataBase.Users.Where(user => user.Email == email);
+          return wantedUser;
         }
       }
-      catch (Exception ex)
-      {
-        Console.WriteLine(ex.Message);
-      }
-      return wantedUser;
+      return null;
     }
 
     public async Task<bool> AddNewUser(User newUser)
     {
-      try
+      using (var dataBase = new TrainingAlinContext())
       {
-        using (var dataBase = new TrainingAlinContext())
+        try
         {
-          Console.Write(newUser.Email);
-          Console.Write(newUser.FullName);
-          Console.Write(newUser.Phone);
+          newUser.HashPass = Utils.hashPassword(newUser.HashPass);
           dataBase.Users.Add(newUser);
           await dataBase.SaveChangesAsync();
           return true;
         }
+        catch (Exception ex)
+        {
+          return false;
+        }
       }
-      catch (Exception ex)
-      {
-        Console.WriteLine(ex.Message);
-        return false;
-      }
+
 
     }
 

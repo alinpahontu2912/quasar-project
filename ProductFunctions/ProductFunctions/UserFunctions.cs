@@ -16,13 +16,27 @@ namespace StoreFunctions
     static UserService userService = new();
 
     [FunctionName("users")]
-    public static async Task<IActionResult> Test(
+    public static async Task<IActionResult> GetUser(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
         ILogger log)
     {
       string email = req.Query["user"];
-      string hashPssword = req.Query["pswd"];
-      return new OkObjectResult("fasf");
+      string password = req.Query["pswd"];
+      bool successfull = userService.FindUser(email, password) != null;
+      return successfull ? new OkObjectResult(Utils.getJWTToken(email))
+      : new BadRequestObjectResult("Credentials are not correct");
+    }
+
+    [FunctionName("createUsers")]
+    public static async Task<IActionResult> CreateUser(
+        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "users/add/")] HttpRequest req,
+        ILogger log)
+    {
+      string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+      User newUser = JsonConvert.DeserializeObject<User>(requestBody);
+      bool succesfull = await userService.AddNewUser(newUser);
+      return succesfull ? new OkObjectResult(Utils.getJWTToken(newUser.Email))
+        : new BadRequestObjectResult("Not a valid user");
     }
 
     [FunctionName("usersTest")]
@@ -36,19 +50,6 @@ namespace StoreFunctions
         return new UnauthorizedResult();
       }
       return new OkObjectResult("Merge!");
-    }
-
-    [FunctionName("createUsers")]
-    public static async Task<IActionResult> CreateUser(
-        [HttpTrigger(AuthorizationLevel.Function, "post", Route = "users/add/")] HttpRequest req,
-        ILogger log)
-    {
-      string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-      User newUser = JsonConvert.DeserializeObject<User>(requestBody);
-      bool succesfull = await userService.AddNewUser(newUser);
-      return succesfull ? new OkObjectResult(Utils.getJWTToken(newUser.Email))
-        : new BadRequestObjectResult("Not a valid user");
-      
     }
   }
 }
