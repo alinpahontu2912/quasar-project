@@ -49,7 +49,7 @@ namespace ProductFunctions
 
     }
 
-    public List<Product> GetNewProducts(int pageNumber, int pageSize)
+    public List<Product> GetNewProducts(int pageNumber, int pageSize, string orderBy, string order)
     {
 
       int startIndex = -1, endIndex = -1;
@@ -71,7 +71,27 @@ namespace ProductFunctions
       {
         using (var dataBase = new TrainingAlinContext())
         {
-          newProducts = dataBase.Products.Where(product => product.Id >= startIndex && product.Id < endIndex).ToList();
+          switch (orderBy)
+          {
+            case "price":
+              if (order == "ASC")
+                newProducts = dataBase.Products.OrderBy(product => product.Price).Where(product => product.Id >= startIndex && product.Id < endIndex).ToList();
+              else
+                newProducts = dataBase.Products.OrderByDescending(product => product.Price).Where(product => product.Id >= startIndex && product.Id < endIndex).ToList();
+              break;
+            case "name":
+              if (order == "ASC")
+                newProducts = dataBase.Products.OrderBy(product => product.Name).Where(product => product.Id >= startIndex && product.Id < endIndex).ToList();
+              else
+                newProducts = dataBase.Products.OrderByDescending(product => product.Name).Where(product => product.Id >= startIndex && product.Id < endIndex).ToList();
+              break;
+            default:
+              if (order == "ASC")
+                newProducts = dataBase.Products.OrderBy(product => product.Id).Where(product => product.Id >= startIndex && product.Id < endIndex).ToList();
+              else
+                newProducts = dataBase.Products.OrderByDescending(product => product.Id).Where(product => product.Id >= startIndex && product.Id < endIndex).ToList();
+              break;
+          }
           return newProducts;
         }
       }

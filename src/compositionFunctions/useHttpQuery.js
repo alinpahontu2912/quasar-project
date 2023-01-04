@@ -5,11 +5,12 @@ import axios from 'axios'
 const storeEndpoint = 'http://localhost:7023/api/products/'
 const userEndpoint = ' http://localhost:7023/api/users'
 
-function createPageNumberQuery(pageNumber, pageSize) {
+function createPageNumberQuery(pageNumber, pageSize, orderCriteria, orderType) {
   const target = new URL(storeEndpoint)
   const params = new URLSearchParams()
   params.set('pgsize', pageSize)
   params.set('page', pageNumber)
+  params.set('orderby', orderCriteria + '|' + orderType)
   target.search = params.toString()
   return target.href
 }
@@ -65,8 +66,8 @@ export default function () {
     return products
   }
 
-  async function loadPage(index, pageSize, done, container) {
-    const response = await axios.get(createPageNumberQuery(index, pageSize))
+  async function loadPage(index, pageSize, orderCriteria, orderType, done, container) {
+    const response = await axios.get(createPageNumberQuery(index, pageSize, orderCriteria, orderType))
     const data = response.data
     for (let i = 0; i < data.length; i++) {
       container.push(new Product(...Object.values(data[i])))

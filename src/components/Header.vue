@@ -26,6 +26,7 @@
     </q-btn-dropdown>
     <q-btn-dropdown label="Settings">
       <div class="row no-wrap q-pa-md">
+        <!-- @change="" -->
         <q-checkbox v-model="darkMode" label="Dark Mode" />
       </div>
     </q-btn-dropdown>
@@ -66,6 +67,12 @@ function changeOrderType() {
   } else {
     arrow.value = 'keyboard_arrow_up'
   }
+  bus.emit(EVENT_KEYS.ORDER_TYPE, arrow.value === 'keyboard_arrow_up' ? 'ASC' : 'DSC')
+}
+
+function changeOrdering(value) {
+  orderBy.value = value
+  bus.emit(EVENT_KEYS.ORDER_CRITERIA, orderBy.value)
 }
 
 watch(darkMode, () => {
