@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace ProductFunctions
+namespace StoreFunctions
 {
   public partial class TrainingAlinContext : DbContext
   {
@@ -16,34 +18,77 @@ namespace ProductFunctions
     }
 
     public virtual DbSet<Product> Products { get; set; }
+    public virtual DbSet<User> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=DEVSQL\\SQL2012;Database=training_alin;Trusted_Connection=True;TrustServerCertificate=True");
+    {
+      if (!optionsBuilder.IsConfigured)
+      {
+        optionsBuilder.UseSqlServer(Environment.GetEnvironmentVariable($"ConnectionStrings:database", EnvironmentVariableTarget.Process));
+      }
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       modelBuilder.Entity<Product>(entity =>
       {
         entity.Property(e => e.Id)
-              .ValueGeneratedNever()
-              .HasColumnName("id");
+                  .ValueGeneratedNever()
+                  .HasColumnName("id");
+
         entity.Property(e => e.Description)
-              .IsRequired()
-              .HasMaxLength(200)
-              .IsUnicode(false)
-              .HasColumnName("description");
+                  .IsRequired()
+                  .HasMaxLength(200)
+                  .IsUnicode(false)
+                  .HasColumnName("description");
+
         entity.Property(e => e.Image)
-              .IsRequired()
-              .HasMaxLength(200)
-              .IsUnicode(false)
-              .HasColumnName("image");
+                  .IsRequired()
+                  .HasMaxLength(200)
+                  .IsUnicode(false)
+                  .HasColumnName("image");
+
         entity.Property(e => e.Name)
-              .IsRequired()
-              .HasMaxLength(50)
-              .IsUnicode(false)
-              .HasColumnName("name");
+                  .IsRequired()
+                  .HasMaxLength(50)
+                  .IsUnicode(false)
+                  .HasColumnName("name");
+
         entity.Property(e => e.Price).HasColumnName("price");
+      });
+
+      modelBuilder.Entity<User>(entity =>
+      {
+        entity.HasKey(e => e.Email)
+                  .HasName("PK_users");
+
+        entity.Property(e => e.Email)
+                  .HasMaxLength(100)
+                  .IsUnicode(false)
+                  .HasColumnName("email");
+
+        entity.Property(e => e.FullName)
+              .HasMaxLength(100)
+              .IsUnicode(false)
+              .HasColumnName("fullname");
+
+        entity.Property(e => e.Address)
+              .IsRequired()
+              .HasMaxLength(500)
+              .IsUnicode(false)
+              .HasColumnName("address");
+
+        entity.Property(e => e.HashPass)
+                  .IsRequired()
+                  .HasMaxLength(100)
+                  .IsUnicode(false)
+                  .HasColumnName("hashpass");
+
+        entity.Property(e => e.Phone)
+                  .IsRequired()
+                  .HasMaxLength(12)
+                  .IsUnicode(false)
+                  .HasColumnName("phone");
       });
 
       OnModelCreatingPartial(modelBuilder);

@@ -21,14 +21,26 @@ import ProductTile from 'src/components/ProductTile.vue'
 
 const items = ref([])
 const pageSize = ref(10)
+const orderCriteria = ref('id')
+const orderType = ref('ASC')
+
 const bus = inject('bus')
 const { loadPage } = useHttpQuery()
 
 bus.on(EVENT_KEYS.CHANGE_PAGE_SIZE, (newSize) => {
   pageSize.value = newSize
 })
+
+bus.on(EVENT_KEYS.ORDER_CRITERIA, (newCriteria) => {
+  orderCriteria.value = newCriteria
+})
+
+bus.on(EVENT_KEYS.ORDER_TYPE, (newOrderType) => {
+  orderType.value = newOrderType
+})
+
 async function onLoad(index, done) {
-  await loadPage(index, pageSize.value, done, items.value)
+  await loadPage(index, pageSize.value, orderCriteria.value, orderType.value, done, items.value)
 }
 
 </script>

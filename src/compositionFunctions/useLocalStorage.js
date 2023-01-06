@@ -3,10 +3,36 @@ const LOCAL_STORAGE_KEY = {
   PROFILE_PICTURE: 'ProfilePicture',
   GRID_ITEMS: 'GridItems',
   CART_ITEMS: 'CartItems',
-  TOTAL_PRODUCTS: 'numberOfProducts'
+  TOTAL_PRODUCTS: 'numberOfProducts',
+  DARK_MODE: 'darkMode',
+  USER_TOKEN: 'authenticaton_token'
 }
 
 export default function () {
+  function saveUserData(auth_token) {
+    try {
+      LocalStorage.set(LOCAL_STORAGE_KEY.USER_TOKEN, auth_token)
+    } catch (e) {
+      console.log('Could not save data on local storage')
+    }
+  }
+
+  function retrieveUserData() {
+    return LocalStorage.getItem(LOCAL_STORAGE_KEY.USER_TOKEN) || null
+  }
+
+  function setDarkMode(value) {
+    try {
+      LocalStorage.set(LOCAL_STORAGE_KEY.DARK_MODE, value)
+    } catch (e) {
+      console.log('Could not save data on local storage')
+    }
+  }
+
+  function retrieveDarkMode() {
+    return LocalStorage.getItem(LOCAL_STORAGE_KEY.DARK_MODE) || false
+  }
+
   function updateCart(value) {
     try {
       LocalStorage.set(LOCAL_STORAGE_KEY.CART_ITEMS, value)
@@ -68,6 +94,10 @@ export default function () {
     retrieveGridData,
     retrieveProfilePicture,
     retrieveCartData,
-    clearLocalStorage
+    clearLocalStorage,
+    setDarkMode,
+    retrieveDarkMode,
+    saveUserData,
+    retrieveUserData
   }
 }

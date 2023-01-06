@@ -1,16 +1,14 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using StoreFunctions;
 
-namespace ProductFunctions {
+namespace ProductFunctions
+{
   internal class ProductService
   {
-    public DummyDB dummyDB = new DummyDB();
-
-    SqlConnection conn = new(@"Server=DEVSQL\SQL2012;Database=training_alin;Trusted_Connection=True;");
 
     public async Task<bool> DeleteProduct(int productId)
     {
@@ -51,7 +49,7 @@ namespace ProductFunctions {
 
     }
 
-    public List<Product> GetNewProducts(int pageNumber, int pageSize)
+    public List<Product> GetNewProducts(int pageNumber, int pageSize, string orderBy, string order)
     {
 
       int startIndex = -1, endIndex = -1;
@@ -73,7 +71,27 @@ namespace ProductFunctions {
       {
         using (var dataBase = new TrainingAlinContext())
         {
-          newProducts = dataBase.Products.Where(product => product.Id >= startIndex && product.Id < endIndex).ToList();
+          switch (orderBy)
+          {
+            case "price":
+              if (order == "ASC")
+                newProducts = dataBase.Products.OrderBy(product => product.Price).Where(product => product.Id >= startIndex && product.Id < endIndex).ToList();
+              else
+                newProducts = dataBase.Products.OrderByDescending(product => product.Price).Where(product => product.Id >= startIndex && product.Id < endIndex).ToList();
+              break;
+            case "name":
+              if (order == "ASC")
+                newProducts = dataBase.Products.OrderBy(product => product.Name).Where(product => product.Id >= startIndex && product.Id < endIndex).ToList();
+              else
+                newProducts = dataBase.Products.OrderByDescending(product => product.Name).Where(product => product.Id >= startIndex && product.Id < endIndex).ToList();
+              break;
+            default:
+              if (order == "ASC")
+                newProducts = dataBase.Products.OrderBy(product => product.Id).Where(product => product.Id >= startIndex && product.Id < endIndex).ToList();
+              else
+                newProducts = dataBase.Products.OrderByDescending(product => product.Id).Where(product => product.Id >= startIndex && product.Id < endIndex).ToList();
+              break;
+          }
           return newProducts;
         }
       }
@@ -142,15 +160,6 @@ namespace ProductFunctions {
       }
     }
 
-    public async Task populateDB()
-    {
-
-      foreach (var prod in dummyDB.onDisplayProducts)
-      {
-        string data = JsonConvert.SerializeObject(prod, Formatting.Indented);
-        await AddNewProduct(data);
-      }
-    }
-
   }
 }
+

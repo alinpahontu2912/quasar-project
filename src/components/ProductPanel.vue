@@ -1,7 +1,7 @@
 <template>
-  <q-table class="my-sticky-virtscroll-table" style="height: 80vh;" virtual-scroll v-model:pagination="pagination"
-    :rows-per-page-options="[0]" :virtual-scroll-sticky-size-start="48" row-key="id" title="Products" :rows="rows"
-    :columns="columns" selection="multiple" :loading="loading">
+  <q-table style="height: 80vh;" virtual-scroll v-model:pagination="pagination" :rows-per-page-options="[0]"
+    :virtual-scroll-sticky-size-start="48" row-key="id" title="Products" :rows="rows" :columns="columns"
+    selection="multiple" :loading="loading">
     <template v-slot:loading>
       <q-inner-loading showing color="primary" />
     </template>
@@ -63,7 +63,7 @@
 </template>
 
 <script setup>
-import { ref, inject } from 'vue'
+import { ref, inject, onMounted } from 'vue'
 import NewProductFormVue from './NewProductForm.vue'
 import { EVENT_KEYS } from '../utils/eventKeys.js'
 import useHttpQuery from 'src/compositionFunctions/useHttpQuery'
@@ -120,7 +120,9 @@ const columns = [{
 
 const rows = ref([])
 
-refresh()
+onMounted(() => {
+  refresh()
+})
 
 async function refresh() {
   rows.value.length = 0
@@ -157,18 +159,5 @@ function openNewProductForm() {
 
 </script>
 <style lang="sass">
-.my-sticky-virtscroll-table
-  height: 410px
-  .q-table__top,
-  .q-table__bottom,
-  thead tr:first-child th
-    background-color: #fff
 
-  thead tr th
-    position: sticky
-    z-index: 1
-  thead tr:last-child th
-    top: 48px
-  thead tr:first-child th
-    top: 0
 </style>
