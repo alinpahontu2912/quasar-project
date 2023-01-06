@@ -1,9 +1,32 @@
+
+import useLocalStorage from './useLocalStorage'
 import { Product } from 'src/models/Product'
 import { User } from 'src/models/User'
-
+import { axiosInstance } from '../boot/axios'
 import axios from 'axios'
 const storeEndpoint = 'http://localhost:7023/api/products/'
-const userEndpoint = ' http://localhost:7023/api/users'
+const userEndpoint = 'http://localhost:7023/api/users'
+const { retrieveUserData, saveUserData } = useLocalStorage()
+
+axiosInstance.interceptors.request.use(function (config) {
+  const userToken = retrieveUserData()
+  if (userToken) {
+    config.headers.Authorization = 'Bearer ' + userToken
+  }
+  return config
+})
+
+// not tested yet
+axiosInstance.interceptors.response.use((response) => {
+  return response
+}, async function (error) {
+  const originalRequest = error.config
+  if (error.response.status !== 200) {
+    const response = await axios.get('http://localhost:7023/api/refresh', originalRequest)
+    saveUserData(response)
+  }
+  return Promise.reject(error)
+})
 
 function createPageNumberQuery(pageNumber, pageSize, orderCriteria, orderType) {
   const target = new URL(storeEndpoint)
@@ -24,6 +47,26 @@ function createUserCredentialsQuery(user, password) {
   return target.href
 }
 
+function createTokenRefreshQuery(user, token) {
+  const target = new URL(userEndpoint + '/refreshToken')
+  const params = new URLSearchParams()
+  params.set('user', user)
+  params.set('refreshToken', token)
+  target.search = params.toString()
+  return target.href
+}
+
+async function refreshToken(mail, token) {
+  try {
+    const response = await axiosInstance.get(createTokenRefreshQuery(mail, token))
+    if (response.status === 200) {
+      return response.data
+    }
+  } catch (error) {
+    return null
+  }
+}
+
 function createDeleteIdQuery(productId) {
   const target = new URL(storeEndpoint + 'delete/')
   return target.href + productId
@@ -35,9 +78,9 @@ function createPriceUpdateQuery(productId, newPrice) {
 }
 
 export default function () {
-  async function verifyUserCredentials(user, password) {
+  async function verifyUserCredentials(mail, password) {
     try {
-      const response = await axios.get(createUserCredentialsQuery(user, password))
+      const response = await axiosInstance.get(createUserCredentialsQuery(mail, password))
       if (response.status === 200) {
         return response.data
       }
@@ -49,7 +92,7 @@ export default function () {
   async function addNewUser(email, fullName, phoneNumber, password, address) {
     const newUser = new User(email, fullName, phoneNumber, password, address)
     try {
-      const response = await axios.post(userEndpoint + '/add/', newUser)
+      const response = await axiosInstance.post(userEndpoint + '/add/', newUser)
       return response.data
     } catch (error) {
       return null
@@ -57,7 +100,7 @@ export default function () {
   }
 
   async function getNoPaginationProducts() {
-    const response = await axios.get(storeEndpoint)
+    const response = await axiosInstance.get(storeEndpoint)
     const data = response.data
     const products = []
     for (let i = 0; i < data.length; i++) {
@@ -67,8 +110,9 @@ export default function () {
   }
 
   async function loadPage(index, pageSize, orderCriteria, orderType, done, container) {
-    const response = await axios.get(createPageNumberQuery(index, pageSize, orderCriteria, orderType))
+    const response = await axiosInstance.get(createPageNumberQuery(index, pageSize, orderCriteria, orderType))
     const data = response.data
+    console.log(data)
     for (let i = 0; i < data.length; i++) {
       container.push(new Product(...Object.values(data[i])))
     }
@@ -76,20 +120,20 @@ export default function () {
   }
 
   async function deleteProduct(productId) {
-    const response = await axios.delete(createDeleteIdQuery(productId))
+    const response = await axiosInstance.delete(createDeleteIdQuery(productId))
     return response.status === 200
   }
 
   async function updateProductPrice(productId, newPrice) {
-    const response = await axios.put(createPriceUpdateQuery(productId, newPrice))
+    const response = await axiosInstance.put(createPriceUpdateQuery(productId, newPrice))
     return response.status === 200
   }
 
   async function addProduct(productId, name, price, description, image) {
     const newProd = new Product(productId, name, price, description, image)
-    const response = await axios.post(storeEndpoint + 'add/', newProd)
+    const response = await axiosInstance.post(storeEndpoint + 'add/', newProd)
     return response.status === 200
   }
 
-  return { getNoPaginationProducts, deleteProduct, loadPage, updateProductPrice, addProduct, addNewUser, verifyUserCredentials }
+  return { getNoPaginationProducts, deleteProduct, loadPage, updateProductPrice, addProduct, addNewUser, verifyUserCredentials, refreshToken }
 }

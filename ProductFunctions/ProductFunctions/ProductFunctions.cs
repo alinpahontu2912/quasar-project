@@ -24,29 +24,31 @@ namespace ProductFunctions
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = "products")] HttpRequest req,
         ILogger log)
     {
-
-      if (!string.IsNullOrEmpty(req.Query["page"]) && !string.IsNullOrEmpty(req.Query["pgsize"]))
+      ValidateJWT validate = new(req);
+      if (validate.IsValid)
       {
-
-        int pageNumber = Int32.Parse(req.Query["page"]);
-        int pageSize = Int32.Parse(req.Query["pgsize"]);
-        string[] orderParams = req.Query["orderBy"].ToString().Split('|');  
-        List<Product> newProducts = productService.GetNewProducts(pageNumber - 1, pageSize, orderParams[0], orderParams[1]);
-        if (newProducts.Count > 0)
+        if (!string.IsNullOrEmpty(req.Query["page"]) && !string.IsNullOrEmpty(req.Query["pgsize"]))
         {
-          return new OkObjectResult(JsonConvert.SerializeObject(newProducts, Formatting.Indented));
+          int pageNumber = Int32.Parse(req.Query["page"]);
+          int pageSize = Int32.Parse(req.Query["pgsize"]);
+          string[] orderParams = req.Query["orderBy"].ToString().Split('|');
+          List<Product> newProducts = productService.GetNewProducts(pageNumber - 1, pageSize, orderParams[0], orderParams[1]);
+          if (newProducts.Count > 0)
+          {
+            return new OkObjectResult(JsonConvert.SerializeObject(newProducts, Formatting.Indented));
+          }
+          return new NoContentResult();
         }
         else
         {
-          return new NoContentResult();
+          List<Product> newProducts = productService.GetAllProducts();
+          return new OkObjectResult(JsonConvert.SerializeObject(newProducts, Formatting.Indented));
         }
       }
       else
       {
-        List<Product> newProducts = productService.GetAllProducts();
-        return new OkObjectResult(JsonConvert.SerializeObject(newProducts, Formatting.Indented));
+        return new NoContentResult();
       }
-
 
 
     }

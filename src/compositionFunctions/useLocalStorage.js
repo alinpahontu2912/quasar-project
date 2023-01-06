@@ -5,10 +5,23 @@ const LOCAL_STORAGE_KEY = {
   CART_ITEMS: 'CartItems',
   TOTAL_PRODUCTS: 'numberOfProducts',
   DARK_MODE: 'darkMode',
-  USER_TOKEN: 'authenticaton_token'
+  USER_TOKEN: 'authenticaton_token',
+  USER_PERMISSION: 'userPermission'
 }
 
 export default function () {
+  function savePermission(value) {
+    try {
+      LocalStorage.set(LOCAL_STORAGE_KEY.USER_PERMISSION, value)
+    } catch (e) {
+      console.log('Could not save data on local storage')
+    }
+  }
+
+  function getUserPermission(value) {
+    return LocalStorage.getItem(LOCAL_STORAGE_KEY.USER_PERMISSION) || 0
+  }
+
   function saveUserData(auth_token) {
     try {
       LocalStorage.set(LOCAL_STORAGE_KEY.USER_TOKEN, auth_token)
