@@ -10,18 +10,6 @@ const LOCAL_STORAGE_KEY = {
 }
 
 export default function () {
-  function savePermission(value) {
-    try {
-      LocalStorage.set(LOCAL_STORAGE_KEY.USER_PERMISSION, value)
-    } catch (e) {
-      console.log('Could not save data on local storage')
-    }
-  }
-
-  function getUserPermission(value) {
-    return LocalStorage.getItem(LOCAL_STORAGE_KEY.USER_PERMISSION) || 0
-  }
-
   function saveUserData(auth_token) {
     try {
       LocalStorage.set(LOCAL_STORAGE_KEY.USER_TOKEN, auth_token)

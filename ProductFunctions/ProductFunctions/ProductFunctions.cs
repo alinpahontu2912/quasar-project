@@ -19,20 +19,22 @@ namespace ProductFunctions
     static ProductService productService = new();
 
     [FunctionName("getAllProducts")]
-    // getproducts?page=2&pgsize=10&id=1&orderby=id|DSC
     public static async Task<IActionResult> GetProducts(
         [HttpTrigger(AuthorizationLevel.Function, "get", Route = "products")] HttpRequest req,
         ILogger log)
     {
       ValidateJWT validate = new(req);
+      Console.WriteLine("Token valid:" + validate.IsValid);
       if (validate.IsValid)
       {
         if (!string.IsNullOrEmpty(req.Query["page"]) && !string.IsNullOrEmpty(req.Query["pgsize"]))
         {
           int pageNumber = Int32.Parse(req.Query["page"]);
           int pageSize = Int32.Parse(req.Query["pgsize"]);
-          string[] orderParams = req.Query["orderBy"].ToString().Split('|');
-          List<Product> newProducts = productService.GetNewProducts(pageNumber - 1, pageSize, orderParams[0], orderParams[1]);
+          string orderBy = req.Query["orderBy"];
+          string orderType = req.Query["orderType"];
+          string filter = req.Query["filter"];
+          List<Product> newProducts = productService.GetNewProducts(pageNumber - 1, pageSize, orderBy, orderType, filter);
           if (newProducts.Count > 0)
           {
             return new OkObjectResult(JsonConvert.SerializeObject(newProducts, Formatting.Indented));
@@ -63,6 +65,16 @@ ILogger log)
       bool succesfull = await productService.AddNewProduct(requestBody);
       return succesfull ? new OkObjectResult("[OK] Product added")
         : new BadRequestObjectResult("Not a valid product");
+    }
+
+    [FunctionName("getProductCount")]
+    public static async Task<IActionResult> getProductCount(
+   [HttpTrigger(AuthorizationLevel.Function, "get", Route = "products/count")] HttpRequest req, ILogger log)
+    {
+      log.LogInformation("C# HTTP trigger function processed a request.");
+      int numOfProducts = productService.getProductCount(req.Query["filter"]);
+      return numOfProducts != -1 ? new OkObjectResult(numOfProducts)
+        : new BadRequestErrorMessageResult("Can not fetch data");
     }
 
     [FunctionName("DeleteProduct")]
