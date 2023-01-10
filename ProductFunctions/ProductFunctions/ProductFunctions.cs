@@ -27,13 +27,14 @@ namespace ProductFunctions
       Console.WriteLine("Token valid:" + validate.IsValid);
       if (validate.IsValid)
       {
-        if (!string.IsNullOrEmpty(req.Query["page"]) && !string.IsNullOrEmpty(req.Query["pgsize"]))
+        int pageNumber = Int32.Parse(req.Query["page"]);
+        int pageSize = Int32.Parse(req.Query["pgsize"]);
+        if (pageNumber > 1 && pageSize >= 1)
         {
-          int pageNumber = Int32.Parse(req.Query["page"]);
-          int pageSize = Int32.Parse(req.Query["pgsize"]);
           string orderBy = req.Query["orderBy"];
           string orderType = req.Query["orderType"];
           string filter = req.Query["filter"];
+
           List<Product> newProducts = productService.GetNewProducts(pageNumber - 1, pageSize, orderBy, orderType, filter);
           if (newProducts.Count > 0)
           {

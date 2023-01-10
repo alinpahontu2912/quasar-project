@@ -50,6 +50,9 @@ namespace StoreFunctions
         try
         {
           Utils.secureUserFields(newUser);
+          if (dataBase.Users.FirstOrDefaultAsync(user => user.Email == newUser.Email) != null) {
+            return false;
+          }
           dataBase.Users.Add(newUser);
           await dataBase.SaveChangesAsync();
           return true;

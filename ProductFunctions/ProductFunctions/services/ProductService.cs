@@ -59,15 +59,15 @@ namespace ProductFunctions
     public List<Product> GetNewProducts(int pageNumber, int pageSize, string orderBy, string order, string filter)
     {
       List<Product> newProducts = new();
-      int dbCount = getProductCount(filter);
-      int skip = pageNumber * pageSize;
-      int take = dbCount < (pageNumber + 1) * pageSize ? dbCount - pageNumber * pageSize : pageSize;
       try
       {
         using (var dataBase = new TrainingAlinContext())
         {
           var fitleredProducts = string.IsNullOrEmpty(filter) ? dataBase.Products :
               dataBase.Products.Where(product => product.Name.Contains(filter));
+          int dbCount = fitleredProducts.ToList().Count;
+          int skip = pageNumber * pageSize;
+          int take = dbCount < (pageNumber + 1) * pageSize ? dbCount - pageNumber * pageSize : pageSize;
           switch (orderBy)
           {
             case "price":
